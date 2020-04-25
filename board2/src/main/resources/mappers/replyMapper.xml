@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mappers.reply">
+   
+	<!-- 댓글 CRUD 시작 -->
+	
+		<!-- 댓글 작성 -->
+		<insert id="regReply">
+			 insert into tbl_reply (bno, userId, repCon)
+			 values (#{bno}, #{userId}, #{repCon})
+		</insert>
+		
+		<!-- 댓글 조회 -->
+		<select id = "repList" resultType="com.board.domain.ReplyVO">
+			select r.bno, r.userId, r.rno, r.repCon, r.repDate, m.userName
+			from tbl_reply r, mymember m
+			where r.userId = m.userId
+					and r.bno = #{bno}
+		</select>
+		
+		<!-- 댓글 수정 -->
+		<delete id="updateReply" parameterType="com.board.domain.ReplyVO">
+			update tbl_reply
+			set repCon = #{repCon}
+			where rno = #{rno}
+		</delete>
+		
+		<!-- 댓글 삭제 -->
+		<delete id="deleteReply" parameterType="com.board.domain.ReplyVO">
+			delete 
+			from tbl_reply
+			where rno = #{rno}
+		</delete>
+		
+		<!-- 댓글 수정 -->
+		
+	<!-- 댓글 CRUD 끝  -->
+	
+	<!-- 선택된 댓글 조회 -->
+	<select id="selectReply" resultType="com.board.domain.ReplyVO">
+			select rno, bno, userId, repCon, repDate
+			from tbl_reply
+			where rno = #{rno};
+	</select>
+	
+	
+</mapper>
